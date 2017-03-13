@@ -172,7 +172,28 @@
         });
         -->
     </div>
-    
+     <h3>Change Buttons position to header <small>Buttons are added btn-xs class automatically</small></h3>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            title: 'Default Title',
+            message: 'Click buttons above.',
+            buttonPosition: 'header',
+            buttons: [{
+                label: 'Message 2',
+                cssClass: 'btn-info',
+                action: function(dialog) {
+                    dialog.setMessage('Message 2');
+                }
+            }, {
+                label: 'Message 1',
+                action: function(dialog) {
+                    dialog.setMessage('Message 1');
+                }
+            }]
+        });
+        -->
+    </div>
     <h3>Manipulating Buttons</h3>
     <p>
         Buttons that created by BootstrapDialog have some extra functions available: <br />

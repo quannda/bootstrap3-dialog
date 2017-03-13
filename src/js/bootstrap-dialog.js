@@ -241,7 +241,8 @@
         animate: true,
         description: '',
         tabindex: -1,
-        btnsOrder: BootstrapDialog.BUTTONS_ORDER_CANCEL_OK
+        btnsOrder: BootstrapDialog.BUTTONS_ORDER_CANCEL_OK,
+        buttonPosition: 'footer',
     };
 
     /**
@@ -713,7 +714,19 @@
             if (this.isRealized()) {
                 if (this.getButtons().length === 0) {
                     this.getModalFooter().hide();
-                } else {
+                } else if (this.options.buttonPosition === 'header') {
+                    var diaglog_header = this.getModalHeader();
+                    var close_button_container = diaglog_header.show().find('.' + this.getNamespace('close-button'));
+                    close_button_container.css('font-size','16px')
+                        .css('white-space','no-wrap');
+                    var buttons = this.createHeaderButtons(close_button_container);
+                    var button_close = close_button_container.find('.close');
+                    if(button_close){
+                        button_close.addClass('btn btn-xs btn-default btn-close').removeClass('close');
+                    }
+                    diaglog_header.append($('<div style="clear:both"></div>'));
+                    
+                }else {
                     this.getModalFooter().show().find('.' + this.getNamespace('footer')).html('').append(this.createFooterButtons());
                 }
             }
@@ -763,7 +776,7 @@
             $container.append(this.createTitleContent());
 
             // Close button
-            $container.prepend(this.createCloseButton());
+            $container.append(this.createCloseButton());
 
             return $container;
         },
@@ -779,9 +792,15 @@
             var $icon = $('<button class="close" aria-label="close"></button>');
             $icon.append(this.options.closeIcon);
             $container.append($icon);
-            $container.on('click', {dialog: this}, function (event) {
-                event.data.dialog.close();
-            });
+            if(this.options.buttonPosition =='header'){
+                $container.on('click', '.btn-close', {dialog: this}, function (event) {
+                    event.data.dialog.close();
+                });
+            }else{
+                $container.on('click', {dialog: this}, function (event) {
+                    event.data.dialog.close();
+                });
+            }
 
             return $container;
         },
@@ -818,6 +837,36 @@
                 var $button = that.createButton(button);
                 that.indexedButtons[button.id] = $button;
                 $container.append($button);
+            });
+
+            return $container;
+        },
+        createHeaderActionContent: function () {
+            var $container = $('<div></div>');
+            $container.addClass(this.getNamespace('header-action'));
+
+            return $container;
+        },
+        createHeaderButtons: function ($container) {
+            var that = this;
+            if(!$container){
+                $container = $('<div></div>');
+                $container.addClass(this.getNamespace('close-button'));
+            }
+            this.indexedButtons = {};
+            $.each(this.options.buttons, function (index, button) {
+                if (!button.id) {
+                    button.id = BootstrapDialog.newGuid();
+                }
+                if(button['cssClass']){
+                    button['cssClass'] +=' btn-xs';
+                }else{
+                    button['cssClass'] = 'btn btn-xs btn-default';
+                }
+                var $button = that.createButton(button);
+                $button.css('margin-right', '3px');
+                that.indexedButtons[button.id] = $button;
+                $container.prepend($button);
             });
 
             return $container;

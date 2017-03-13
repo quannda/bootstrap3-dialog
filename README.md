@@ -1,3 +1,6 @@
+QuanNDA: provide option buttonPosition (header|footer), to provide ability to relocate buttons to Header section.
+
+
 bootstrap-dialog
 ================
 
@@ -10,6 +13,7 @@ See live examples here: <a href="http://nakupanda.github.io/bootstrap3-dialog/">
 Please note that this project is for <a href="http://getbootstrap.com/"><strong>Bootstrap 3</strong></a>.
 
 Thanks for [akinoniku](https://github.com/akinoniku)'s suggestions on dialog appearance.
+
 
 ================
 
